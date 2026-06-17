@@ -141,14 +141,6 @@ handler.all = async function (m) {
 
     global.icono = ['https://raw.githubusercontent.com/danielalejandrobasado-glitch/Yotsuba-MD-Premium/main/uploads/d4abc3ed38259119.jpg'].getRandom()
 
-    let iconBuffer
-    if (global.icons) {
-        iconBuffer = global.icons
-    } else {
-        const iconRes = await fetch(global.icono)
-        iconBuffer = Buffer.from(await iconRes.arrayBuffer())
-    }
-
     global.rcanal = {
         contextInfo: {
             isForwarded: true,
@@ -156,17 +148,6 @@ handler.all = async function (m) {
                 newsletterJid: global.channelRD.id,
                 serverMessageId: '',
                 newsletterName: global.channelRD.name
-            },
-            externalAdReply: {
-                title: global.ofcbot,
-                body: global.creador,
-                mediaUrl: null,
-                description: null,
-                previewType: "PHOTO",
-                thumbnail: iconBuffer,
-                sourceUrl: global.redes,
-                mediaType: 1,
-                renderLargerThumbnail: false
             },
             mentionedJid: null
         }
