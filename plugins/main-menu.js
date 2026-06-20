@@ -238,15 +238,6 @@ let handler = async (m, { conn }) => {
     text: txt,
     contextInfo: {
       mentionedJid: [m.sender, userId],
-      forwardingScore: 1,
-      externalAdReply: {
-        title: channelName,
-        body: dev,
-        thumbnailUrl: menuImage,
-        sourceUrl: redes,
-        mediaType: 1,
-        renderLargerThumbnail: true
-      }
     },
   }, { quoted: m })
 }
