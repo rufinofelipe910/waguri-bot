@@ -1,57 +1,79 @@
-const handler = async (m, { args, conn, usedPrefix, command }) => {
-try {
-if (!args[0]) return conn.reply(m.chat, `❀ Por favor, ingresa un enlace de *Instagram* o *Facebook*.`, m)
-let data = []
-const url = encodeURIComponent(args[0])
-await m.react('🕒')
-if (/(instagram\.com)/i.test(args[0])) {
-try {
-const api = `${global.APIs.adonix.url}/download/instagram?apikey=${global.APIs.adonix.key}&url=${url}`
-const res = await fetch(api)
-const json = await res.json()
-if (json.status && json.data?.length) {
-data = json.data.map(v => v.url)
-}} catch (e) {}
-}
-if (/(facebook\.com|fb\.watch)/i.test(args[0]) && !data.length) {
-try {
-const api = `${global.APIs.adonix.url}/download/facebook?apikey=${global.APIs.adonix.key}&url=${url}`
-const res = await fetch(api)
-const json = await res.json()
-if (json.status && json.result?.media?.video_hd) {
-data = [json.result.media.video_hd]
-}} catch (e) {}
-}
-if (!data.length) {
-try {
-const api = `${global.APIs.vreden.url}/api/igdownload?url=${url}`
-const res = await fetch(api)
-const json = await res.json()
-if (json.resultado?.respuesta?.datos?.length) {
-data = json.resultado.respuesta.datos.map(v => v.url)
-}} catch (e) {}
-}
-if (!data.length) {
-try {
-const api = `${global.APIs.delirius.url}/download/instagram?url=${url}`
-const res = await fetch(api)
-const json = await res.json()
-if (json.status && json.data?.length) {
-data = json.data.map(v => v.url)
-}} catch (e) {}
-}
-if (!data.length) return conn.reply(m.chat, `ꕥ No se pudo obtener el contenido.`, m)
-for (let media of data) {
-await conn.sendFile(m.chat, media, 'media.mp4', `❀ Aquí tienes ฅ^•ﻌ•^ฅ.`, m)
-await m.react('✔️')
-}} catch (error) {
-await m.react('✖️')
-await m.reply(`⚠︎ Se ha producido un problema.\n> Usa *${usedPrefix}report* para informarlo.\n\n${error.message}`)
-}}
+// by Rufino 
 
-handler.command = ['facebook', 'fb']
-handler.tags = ['descargas']
-handler.help = ['facebook', 'fb']
-handler.group = true
+import fetch from 'node-fetch';
 
-export default handler
+const API_KEY = 'causa-4905b017c77b80a6';
+const API_URL = 'https://rest.apicausas.xyz/api/v1/descargas/facebook';
+
+function extractMediaUrl(data) {
+    return (
+        data?.url ||
+        data?.result?.url ||
+        data?.data?.url ||
+        data?.video ||
+        data?.result?.video ||
+        data?.data?.video ||
+        data?.hd ||
+        data?.sd ||
+        data?.medias?.[0]?.url ||
+        data?.result?.medias?.[0]?.url ||
+        null
+    );
+}
+
+async function handler(m, { text, conn, usedPrefix, command }) {
+    if (!text || !text.startsWith('http')) {
+        return m.reply(`Por favor, ingresa un link válido de Facebook.\n> *Ejemplo:* ${usedPrefix}fb https://www.facebook.com/watch?v=123456789`);
+    }
+
+    try {
+        await conn.sendMessage(m.chat, { react: { text: "⌚", key: m.key } });
+    } catch (error) {
+        console.error('Error enviando reacción:', error);
+    }
+
+    try {
+        const url = `${API_URL}?apikey=${API_KEY}&url=${encodeURIComponent(text)}`;
+        const res = await fetch(url);
+
+        if (!res.ok) {
+            throw new Error(`HTTP error! status: ${res.status}`);
+        }
+
+        const data = await res.json();
+        console.log('Respuesta Facebook API:', JSON.stringify(data));
+
+        const mediaUrl = extractMediaUrl(data);
+
+        if (!data.status || !mediaUrl) {
+            try {
+                await conn.sendMessage(m.chat, { react: { text: "❌", key: m.key } });
+            } catch (e) {}
+            return m.reply("No pude descargar ese video de Facebook. Revisa que el link sea público y válido.");
+        }
+
+        await conn.sendMessage(m.chat, {
+            video: { url: mediaUrl },
+            caption: data.title || '🎬 Video de Facebook'
+        }, { quoted: m });
+
+        try {
+            await conn.sendMessage(m.chat, { react: { text: "✅", key: m.key } });
+        } catch (e) {}
+
+    } catch (error) {
+        console.error('Error en Facebook:', error);
+        try {
+            await conn.sendMessage(m.chat, { react: { text: "❌", key: m.key } });
+        } catch (e) {}
+        return m.reply("❌ Error al descargar el video de Facebook. Por favor, intenta nuevamente.");
+    }
+}
+
+handler.help = ["fb <link>"];
+handler.tags = ["downloader"];
+handler.command = ["fb", "facebook", "fbdl"];
+handler.group = true;
+
+export default handler;
+                       
