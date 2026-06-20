@@ -235,7 +235,8 @@ let handler = async (m, { conn }) => {
 `.trim()
 
   await conn.sendMessage(m.chat, {
-    text: txt,
+    image: { url: menuImage },
+    caption: txt,
     contextInfo: {
       mentionedJid: [m.sender, userId],
     },
@@ -253,4 +254,4 @@ function clockString(ms) {
   let minutes = Math.floor((ms / (1000 * 60)) % 60)
   let hours = Math.floor((ms / (1000 * 60 * 60)) % 24)
   return `${hours}h ${minutes}m ${seconds}s`
-  }
+}
