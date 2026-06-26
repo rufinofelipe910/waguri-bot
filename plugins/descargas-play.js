@@ -46,26 +46,18 @@ const handler = async (m, { conn, text, command }) => {
 
     const { title, thumbnail, timestamp, views, ago, url } = ytSearch
     const vistas = formatViews(views)
-    const thumb = (await conn.getFile(thumbnail))?.data
     const type = ["play", "yta", "ytmp3", "playaudio"].includes(command) ? "audio" : "video"
 
-    await conn.reply(
+    await conn.sendMessage(
       m.chat,
-      `╭─「 🌸 *WAGURI BOT* 🌸 」\n│\n│ 🎬 *${title}*\n│\n│ 👁️ Vistas   » *${vistas}*\n│ ⏳ Duración » *${timestamp}*\n│ 📅 Subido   » *${ago}*\n│\n│ 📥 Procesando tu archivo~\n│    Por favor espera 💗\n│\n╰────────────────────`,
-      m,
       {
+        image: { url: thumbnail },
+        caption: `╭─「 🌸 *WAGURI BOT* 🌸 」\n│\n│ 🎬 *${title}*\n│\n│ 👁️ Vistas   » *${vistas}*\n│ ⏳ Duración » *${timestamp}*\n│ 📅 Subido   » *${ago}*\n│\n│ 📥 Procesando tu archivo~\n│    Por favor espera 💗\n│\n╰────────────────────`,
         contextInfo: {
-          externalAdReply: {
-            title: botname,
-            body: dev,
-            mediaType: 1,
-            mediaUrl: url,
-            sourceUrl: url,
-            thumbnail: thumb,
-            renderLargerThumbnail: true
-          }
+          mentionedJid: [m.sender]
         }
-      }
+      },
+      { quoted: m }
     )
 
     const apiUrl = `${API_BASE}?apikey=${API_KEY}&url=${encodeURIComponent(url)}&type=${type}`
