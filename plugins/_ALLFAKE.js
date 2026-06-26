@@ -77,7 +77,7 @@ handler.all = async function (m) {
     global.listo = '*Aquí tienes ฅ^•ﻌ•^ฅ*'
     global.fotoperfil = await conn.profilePictureUrl(m.sender, 'image').catch(_ => 'https://raw.githubusercontent.com/danielalejandrobasado-glitch/Yotsuba-MD-Premium/main/uploads/d4abc3ed38259119.jpg')
 
-    global.canalIdM = ["120363420979328566@newsletter", "120363420979328566@newsletter"]
+    global.canalIdM = ["120363423258391692@newsletter", "120363423258391692@newsletter"]
     global.canalNombreM = ["waguri bot"]
     global.channelRD = await getRandomChannel()
 
