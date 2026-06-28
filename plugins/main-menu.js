@@ -52,6 +52,7 @@ let handler = async (m, { conn }) => {
 🌈 sticker
 🌈 emojimix
 🌈 letra
+🌈 swgc
 
 💖 *DIVERSIÓN*
 🌈 doxear
