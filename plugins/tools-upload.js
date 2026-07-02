@@ -6,13 +6,20 @@ import { Readable } from 'stream'
 
 let handler = async (m, { conn }) => {
   if (!m.quoted || m.quoted.mtype !== 'imageMessage') {
-    return m.reply('💖 Responde a una imagen con este comando~\n\n🌈 Ejemplo: responde a una foto y escribe /.up')
+    return m.reply('💖 Responde a una imagen con este comando~\n\n🌈 Ejemplo: responde a una foto y escribe /.cdn')
   }
 
   try {
     await conn.sendMessage(m.chat, { react: { text: '⌚', key: m.key } })
 
-    const media = await conn.downloadMediaMessage(m.quoted)
+    const quoted = m.quoted
+    let media
+
+    try {
+      media = await conn.downloadM(quoted)
+    } catch {
+      media = await quoted.download?.() || Buffer.from(quoted.message.imageMessage.imageData.toString('base64'), 'base64')
+    }
 
     if (!media) throw new Error('No pude descargar la imagen')
 
@@ -26,7 +33,7 @@ let handler = async (m, { conn }) => {
 
     const url = await res.text()
 
-    if (!url.startsWith('http')) throw new Error('El CDN no devolvió una URL válida')
+    if (!url || !url.startsWith('http')) throw new Error('El CDN no devolvió una URL válida')
 
     await conn.sendMessage(m.chat, {
       text:
@@ -53,7 +60,7 @@ let handler = async (m, { conn }) => {
   }
 }
 
-handler.help = ['up']
+handler.help = ['cdn']
 handler.tags = ['tools']
 handler.command = ['cdn', 'upload']
 handler.group = true
