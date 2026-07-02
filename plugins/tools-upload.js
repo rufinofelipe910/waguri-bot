@@ -6,7 +6,7 @@ import { Readable } from 'stream'
 
 let handler = async (m, { conn }) => {
   if (!m.quoted || !m.quoted.mtype === 'imageMessage') {
-    return m.reply('💖 Responde a una imagen con este comando~\n\n🌈 Ejemplo: responde a una foto y escribe /.cdn')
+    return m.reply('💖 Responde a una imagen con este comando~\n\n🌈 Ejemplo: responde a una foto y escribe /.up')
   }
 
   try {
@@ -18,17 +18,17 @@ let handler = async (m, { conn }) => {
     if (!media) throw new Error('No pude descargar la imagen')
 
     const form = new FormData()
-    form.append('file', Readable.from(media), { filename: 'image.jpg' })
+    form.append('fileupload', Readable.from(media), { filename: 'image.jpg' })
 
-    const res = await fetch('https://cdn.adoolab.xyz/upload', {
+    const res = await fetch('https://catbox.moe/user/api.php', {
       method: 'POST',
       body: form,
       headers: form.getHeaders()
     })
 
-    const data = await res.json()
+    const url = await res.text()
 
-    if (!data.url) throw new Error(data.message || 'El CDN no devolvió URL')
+    if (!url.startsWith('http')) throw new Error('El CDN no devolvió una URL válida')
 
     await conn.sendMessage(m.chat, {
       text:
@@ -36,7 +36,7 @@ let handler = async (m, { conn }) => {
         `⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑\n\n` +
         `✅ *¡Imagen subida\\!* 🌸\n\n` +
         `🔗 *URL pública:*\n` +
-        `\`${data.url}\`\n\n` +
+        `${url}\n\n` +
         `⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑`,
       contextInfo: { mentionedJid: [m.sender] }
     }, { quoted: m })
