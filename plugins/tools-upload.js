@@ -1,7 +1,7 @@
 // código creado por Rufino
 
 import fetch from 'node-fetch'
-import { Readable } from 'stream'
+import FormData from 'form-data'
 
 let handler = async (m, { conn }) => {
   if (!m.quoted || m.quoted.mtype !== 'imageMessage') {
@@ -13,19 +13,23 @@ let handler = async (m, { conn }) => {
 
     const media = await conn.downloadM(m.quoted)
 
-    if (!media) throw new Error('No pude descargar la imagen')
+    if (!media || media.length === 0) throw new Error('No pude descargar la imagen')
 
-    const res = await fetch('https://transfer.sh/', {
+    const form = new FormData()
+    form.append('files[]', media, 'image.jpg')
+
+    const res = await fetch('https://uguu.se/upload.php', {
       method: 'POST',
-      body: media,
-      headers: {
-        'Content-Type': 'image/jpeg'
-      }
+      body: form
     })
 
-    const url = await res.text()
+    const data = await res.json()
 
-    if (!url || !url.startsWith('http')) throw new Error('El CDN no devolvió una URL válida')
+    if (!data.files || !data.files[0]?.url) {
+      throw new Error(data.error || 'El CDN no devolvió una URL válida')
+    }
+
+    const url = data.files[0].url
 
     await conn.sendMessage(m.chat, {
       text:
@@ -33,7 +37,7 @@ let handler = async (m, { conn }) => {
         `⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑\n\n` +
         `✅ *¡Imagen subida\\!* 🌸\n\n` +
         `🔗 *URL pública:*\n` +
-        `${url.trim()}\n\n` +
+        `${url}\n\n` +
         `⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑`
     }, { quoted: m })
 
