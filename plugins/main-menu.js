@@ -1,158 +1,101 @@
-// código creado por Rufino 
+// Menú estilo Waguri adaptado para Telegram (Telegraf)
+// Creado por Rufino - Adaptado para Senna Bot
 
 import fetch from 'node-fetch'
 
 const channelId   = '120363423258391692@newsletter'
-const channelName = '🌸❖𝗪𝗔𝗚𝗨𝗥𝗜 𝗕𝗢𝗧❖🌸'
-const menuImage   = 'https://cdn.dev-ander.xyz/a/SV0S.jpg'
+const channelName = '🌸❖𝗦𝗘𝗡𝗡𝗔 𝗕𝗢𝗧❖🌸'
+const menuImage   = global.fg_logo || 'https://cdn.dev-ander.xyz/a/SV0S.jpg'
 
-let handler = async (m, { conn }) => {
-  let mentionedJid = m.mentionedJid
-  let userId       = mentionedJid && mentionedJid[0] ? mentionedJid[0] : m.sender
-  let totalreg     = Object.keys(global.db.data.users).length
-  let totalCmds    = Object.values(global.plugins).filter((v) => v.help && v.tags).length
-  const uptime     = clockString(process.uptime() * 1000)
-  const tipo       = conn.user.jid == global.conn.user.jid ? '⭐ Principal' : '🔹 Sub-bot'
+export default {
+  help: ["menu"],
+  tags: ["main"],
+  command: ["menu", "help", "menú", "waguri", "menucompleto", "comandos", "allmenu"],
 
-  let txt = `
-✿°•  𝗪𝗔𝗚𝗨𝗥𝗜 𝗕𝗢𝗧  •°✿
+  run: async (ctx, { conn, usedPrefix }) => {
+    let userId    = ctx.from.id
+    let username  = ctx.from.username || ctx.from.first_name || 'Usuario'
+    let totalreg  = Object.keys(global.db?.data?.users || {}).length
+    let totalCmds = Object.values(global.plugins).filter((v) => v.help && v.tags).length
+    const uptime  = clockString(process.uptime() * 1000)
+
+    // Construir lista de comandos por categoría
+    let plugins = Object.values(global.plugins)
+    let categorias = {}
+
+    for (let plugin of plugins) {
+      if (!plugin.help || !plugin.tags) continue
+      for (let tag of plugin.tags) {
+        if (!categorias[tag]) categorias[tag] = []
+        for (let help of plugin.help) {
+          categorias[tag].push(help)
+        }
+      }
+    }
+
+    // Emojis por categoría
+    const catEmojis = {
+      main: '💖',
+      ai: '🤖',
+      anime: '🌸',
+      search: '🔍',
+      dl: '📥',
+      group: '👥',
+      owner: '👑',
+      tools: '🛠️'
+    }
+
+    const catNames = {
+      main: 'HERRAMIENTAS',
+      ai: 'INTELIGENCIA ARTIFICIAL',
+      anime: 'ANIME',
+      search: 'STALK',
+      dl: 'DESCARGAS',
+      group: 'GRUPO',
+      owner: 'OWNER',
+      tools: 'UTILIDADES'
+    }
+
+    let txt = `
+✿°•  𝗦𝗘𝗡𝗡𝗔 𝗕𝗢𝗧  •°✿
 ⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑
-🌸 ¡Hola @${userId.split('@')[0]}! ⸜(｡˃ᵕ˂)⸝♡
+🌸 ¡Hola @${username}! ⸜(｡˃ᵕ˂)⸝♡
 ⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑
-🌀 *Tipo* » ${tipo}
+🌀 *Tipo* » ⭐ Principal
 ⏱️ *Uptime* » ${uptime}
 👥 *Users* » ${totalreg}
 🧩 *Cmds* » ${totalCmds}
 
-💖 *HERRAMIENTAS*
-🌈 ping
-🌈 autoadmin
-🌈 demote
-🌈 leave
-🌈 tag
-🌈 invocar
-🌈 logotipo
-🌈 setbanner
-🌈 setcurrency
-🌈 setname
-🌈 setprimary
-🌈 bots
-🌈 reload
-🌈 setprefijo
-🌈 quitarpref
-🌈 update
-🌈 kick
-🌈 antilink
-🌈 del
-🌈 join
-🌈 reg
-🌈 creador
-🌈 repo
-🌈 link
-🌈 sticker
-🌈 emojimix
-🌈 letra
-🌈 swgc
+`.trim()
 
-💖 *DIVERSIÓN*
-🌈 doxear
-🌈 facto
-🌈 piropo
-🌈 reto
-🌈 top
-🌈 iqtest
-🌈 gey
+    // Agregar comandos por categoría
+    for (let tag in catNames) {
+      if (!categorias[tag] || categorias[tag].length === 0) continue
 
-💖 *ANIME*
-🌈 bath
-🌈 bite
-🌈 blush
-🌈 bored
-🌈 buenas-noches
-🌈 buenos-dias
-🌈 cry
-🌈 dance
-🌈 fumar
-🌈 hug
-🌈 kiss
-🌈 pensar
-🌈 sacred
-🌈 slap
-🌈 sleep
+      txt += `\n${catEmojis[tag] || '✨'} *${catNames[tag]}*\n`
 
-💖 *INTELIGENCIA ARTIFICIAL*
-🌈 claude
-🌈 gemini
-🌈 GPT
-🌈 copilot
-🌈 flux
-
-💖 *STALK*
-🌈 github
-🌈 instagram
-🌈 tiktok
-
-💖 *DESCARGAS*
-🌈 play
-🌈 play2
-🌈 tiktoksearch
-🌈 ig
-🌈 APK
-🌈 pin
-🌈 fb
-🌈 mediafire
-
-💖 *RPG*
-🌈 cazar
-🌈 contratos
-🌈 aceptar
-🌈 completar
-🌈 perfil
-🌈 diario
-🌈 minar
-🌈 transferir
-🌈 taller
-🌈 comprar
-🌈 comprar.boy
-🌈 item
-🌈 vender
-🌈 duelo
-🌈 hack
-🌈 best
-🌈 estadisticas
-🌈 inventario
-
-💖 *ECONOMÍA*
-🌈 trabajar
-🌈 balance
-🌈 pay
-🌈 rob
-🌈 deposit
-🌈 withdraw
-⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑
-🌸 _${channelName}_`.trim()
-
-  await conn.sendMessage(m.chat, {
-    image: { url: menuImage },
-    caption: txt,
-    contextInfo: {
-      mentionedJid: [m.sender, userId],
-      isForwarded: true,
-      forwardingScore: 1,
-      forwardedNewsletterMessageInfo: {
-        newsletterJid: channelId,
-        newsletterName: channelName,
-        serverMessageId: -1
+      for (let cmd of categorias[tag]) {
+        txt += `🌈 ${usedPrefix}${cmd}\n`
       }
-    },
-  }, { quoted: m })
+    }
+
+    txt += `\n⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑\n🌸 _${channelName}_`
+
+    // Enviar como foto con caption (Telegraf)
+    try {
+      await ctx.replyWithPhoto(
+        { url: menuImage },
+        {
+          caption: txt,
+          parse_mode: 'Markdown'
+        }
+      )
+    } catch (e) {
+      // Si falla la imagen, enviar solo texto
+      await ctx.reply(txt, { parse_mode: 'Markdown' })
+    }
+  }
 }
-
-handler.help = ['menu']
-handler.tags = ['main']
-handler.command = ['menu', 'waguri', 'help', 'menucompleto', 'comandos', 'helpcompleto', 'allmenu']
-
-export default handler
 
 function clockString(ms) {
   let seconds = Math.floor((ms / 1000) % 60)
