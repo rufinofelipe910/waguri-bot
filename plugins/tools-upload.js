@@ -5,15 +5,14 @@ import FormData from 'form-data'
 import { Readable } from 'stream'
 
 let handler = async (m, { conn }) => {
-  if (!m.quoted || !m.quoted.mtype === 'imageMessage') {
+  if (!m.quoted || m.quoted.mtype !== 'imageMessage') {
     return m.reply('💖 Responde a una imagen con este comando~\n\n🌈 Ejemplo: responde a una foto y escribe /.up')
   }
 
   try {
     await conn.sendMessage(m.chat, { react: { text: '⌚', key: m.key } })
 
-    const quoted = m.quoted
-    const media = await quoted.download()
+    const media = await conn.downloadMediaMessage(m.quoted)
 
     if (!media) throw new Error('No pude descargar la imagen')
 
@@ -22,8 +21,7 @@ let handler = async (m, { conn }) => {
 
     const res = await fetch('https://catbox.moe/user/api.php', {
       method: 'POST',
-      body: form,
-      headers: form.getHeaders()
+      body: form
     })
 
     const url = await res.text()
@@ -37,8 +35,7 @@ let handler = async (m, { conn }) => {
         `✅ *¡Imagen subida\\!* 🌸\n\n` +
         `🔗 *URL pública:*\n` +
         `${url}\n\n` +
-        `⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑`,
-      contextInfo: { mentionedJid: [m.sender] }
+        `⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑`
     }, { quoted: m })
 
     await conn.sendMessage(m.chat, { react: { text: '✅', key: m.key } })
@@ -56,9 +53,9 @@ let handler = async (m, { conn }) => {
   }
 }
 
-handler.help = ['cdn']
+handler.help = ['up']
 handler.tags = ['tools']
-handler.command = ['up', 'upload']
+handler.command = ['cdn', 'upload']
 handler.group = true
 
 export default handler
