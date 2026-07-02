@@ -1,7 +1,6 @@
 // código creado por Rufino
 
 import fetch from 'node-fetch'
-import FormData from 'form-data'
 import { Readable } from 'stream'
 
 let handler = async (m, { conn }) => {
@@ -12,23 +11,16 @@ let handler = async (m, { conn }) => {
   try {
     await conn.sendMessage(m.chat, { react: { text: '⌚', key: m.key } })
 
-    const quoted = m.quoted
-    let media
-
-    try {
-      media = await conn.downloadM(quoted)
-    } catch {
-      media = await quoted.download?.() || Buffer.from(quoted.message.imageMessage.imageData.toString('base64'), 'base64')
-    }
+    const media = await conn.downloadM(m.quoted)
 
     if (!media) throw new Error('No pude descargar la imagen')
 
-    const form = new FormData()
-    form.append('fileupload', Readable.from(media), { filename: 'image.jpg' })
-
-    const res = await fetch('https://catbox.moe/user/api.php', {
+    const res = await fetch('https://transfer.sh/', {
       method: 'POST',
-      body: form
+      body: media,
+      headers: {
+        'Content-Type': 'image/jpeg'
+      }
     })
 
     const url = await res.text()
@@ -41,7 +33,7 @@ let handler = async (m, { conn }) => {
         `⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑\n\n` +
         `✅ *¡Imagen subida\\!* 🌸\n\n` +
         `🔗 *URL pública:*\n` +
-        `${url}\n\n` +
+        `${url.trim()}\n\n` +
         `⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑`
     }, { quoted: m })
 
