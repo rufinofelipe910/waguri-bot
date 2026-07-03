@@ -57,16 +57,16 @@
 
 ---
 
-### `🍋‍🟩 𝘿𝙀𝙎𝘼𝙍𝙍𝙊𝙇𝙇𝘼𝘿𝙊𝙍𝙀𝙎`
+### `🍋‍🟩 DESARROLLADOR PRINCIPAL`
 <a href="https://github.com/rufinofelipe910/Waguri-web/graphs/contributors">
 <img src="https://contrib.rocks/image?repo=rufinofelipe910/Waguri-web" />
 </a>
 
-### `🪷 𝘾𝙍𝙀𝘼𝘿𝙊𝙍𝙀𝙎 𝙊𝙁𝙄𝘾𝙄𝘼𝙇𝙀𝙎`
+### `🪷 COLABORADORES Y DESARROLLADORRES`
 <p align="center">
   <a href="https://github.com/rufinofelipe910"><img src="https://github.com/rufinofelipe910.png" width="130" height="130" alt="Rufino"/></a>
-  <a href="TU_LINK_DE_GITHUB_ANDER"><img src="URL_FOTO_ANDER" width="130" height="130" alt="Ander"/></a>
-  <a href="TU_LINK_DE_GITHUB_DUARTE"><img src="URL_FOTO_DUARTE" width="130" height="130" alt="Duarte"/></a>
+  <a href="https://github.com/ANDERSONTELLO"><img src="https://github.com/ANDERSONTELLO.png" width="130" height="130" alt="Ander"/></a>
+  <a href="https://github.com/DuarteXV"><img src="https://github.com/DuarteXV.png" width="130" height="130" alt="Duarte"/></a>
 </p>
 
 **`¡GRACIAS POR ELEGIRME!` 🫧**
