@@ -18,13 +18,13 @@ if (!m.messageStubParameters || !Array.isArray(m.messageStubParameters)) {
 }
 
 let nombre, foto, edit, newlink, status, admingp, noadmingp
-nombre = `⚽ ${usuario} Ha cambiado el nombre del equipo.\n\n> 🏃‍♂️ Ahora el equipo se llama:\n> *${m.messageStubParameters[0] || 'Sin nombre'}*.`
-foto = `⚽ Se ha cambiado la imagen del equipo.\n\n> 🔥 Acción realizada por:\n> » ${usuario}`
-edit = `⚽ ${usuario} Ha permitido que ${m.messageStubParameters[0] == 'on' ? 'solo capitanes' : 'todos'} puedan configurar el equipo.`
-newlink = `⚽ El enlace del equipo ha sido restablecido.\n\n> ⚽ Acción realizada por:\n> » ${usuario}`
-status = `⚽ El equipo ha sido ${m.messageStubParameters[0] == 'on' ? '*cerrado*' : '*abierto*'} Por ${usuario}\n\n> 🔥 Ahora ${m.messageStubParameters[0] == 'on' ? '*solo capitanes*' : '*todos*'} pueden enviar mensajes.`
-admingp = `⚽ @${m.messageStubParameters[0] && m.messageStubParameters[0].split ? m.messageStubParameters[0].split`@`[0] : 'jugador'} Ahora es capitán del equipo.\n\n> 🏃‍♂️ Acción realizada por:\n> » ${usuario}`
-noadmingp = `⚽ @${m.messageStubParameters[0] && m.messageStubParameters[0].split ? m.messageStubParameters[0].split`@`[0] : 'jugador'} Deja de ser capitán del equipo.\n\n> 🔥 Acción realizada por:\n> » ${usuario}`
+nombre = `🌈 ${usuario} Ha cambiado el nombre del grupo.\n\n> 🏃‍♂️ Ahora el equipo se llama:\n> *${m.messageStubParameters[0] || 'Sin nombre'}*.`
+foto = `🌈 Se ha cambiado la imagen del equipo.\n\n> 🌈 Acción realizada por:\n> » ${usuario}`
+edit = `🌈 ${usuario} Ha permitido que ${m.messageStubParameters[0] == 'on' ? 'solo administradores' : 'todos'} puedan configurar el grupo.`
+newlink = `🌈 El enlace del grupo ha sido restablecido.\n\n> 🌈 Acción realizada por:\n> » ${usuario}`
+status = `🌈 El grupo ha sido ${m.messageStubParameters[0] == 'on' ? '*cerrado*' : '*abierto*'} Por ${usuario}\n\n> 🌀 Ahora ${m.messageStubParameters[0] == 'on' ? '*solo administradores*' : '*todos*'} pueden enviar mensajes.`
+admingp = `⚽ @${m.messageStubParameters[0] && m.messageStubParameters[0].split ? m.messageStubParameters[0].split`@`[0] : 'usuario'} Ahora es un administrador del grupo.\n\n> 🌈 Acción realizada por:\n> » ${usuario}`
+noadmingp = `🌀 @${m.messageStubParameters[0] && m.messageStubParameters[0].split ? m.messageStubParameters[0].split`@`[0] : 'jugador'} Deja de ser capitán del equipo.\n\n> 🌀 Acción realizada por:\n> » ${usuario}`
 
 if (chat.detect && m.messageStubType == 2) {
 const uniqid = (m.isGroup ? m.chat : m.sender)
