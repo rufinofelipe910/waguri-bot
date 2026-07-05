@@ -5,8 +5,8 @@ import path from "path"
 import fetch from "node-fetch"
 import yts from "yt-search"
 
-const API_KEY = "causa-b0ec2c842e895e70"
-const API_BASE = "https://rest.apicausas.xyz/api/v1/descargas/youtube"
+const API_KEY = "AETHER-9e11b828d2e18051dca6f902"
+const API_BASE = "https://aetherapi-i7fc.onrender.com/"
 
 const fetchWithTimeout = (url, ms = 20000) => {
   const controller = new AbortController()
