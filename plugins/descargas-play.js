@@ -5,8 +5,8 @@ import path from "path"
 import fetch from "node-fetch"
 import yts from "yt-search"
 
-const API_KEY = "aebc6414a7msh136b98517deb769p12354ejsnd8308779050b"
-const API_BASE = "https://youtube-downloader-pro.p.rapidapi.com/download"
+const API_KEY = "reyrufino-20072010"
+const API_BASE = "https://rest.apicausas.xyz/api/v1/descargas/youtube"
 
 const fetchWithTimeout = (url, ms = 20000) => {
   const controller = new AbortController()
