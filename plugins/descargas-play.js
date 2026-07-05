@@ -5,8 +5,8 @@ import path from "path"
 import fetch from "node-fetch"
 import yts from "yt-search"
 
-const API_KEY = "NEX-83D0B5F2BEE5455690F53156"
-const API_BASE = "https://nexevo.boxmine.xyz/download/audio"
+const API_KEY = "api-uMZCY"
+const API_BASE = "https://api.alyacore.xyz/dl/ytmp3"
 
 const fetchWithTimeout = (url, ms = 20000) => {
   const controller = new AbortController()
