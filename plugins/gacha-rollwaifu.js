@@ -44,12 +44,12 @@ let handler = async (m, { conn }) => {
     const randomImage = randomCharacter.img[Math.floor(Math.random() * randomCharacter.img.length)]
 
     const message = `
-✿ Nombre » *${randomCharacter.name}*
+🌈 Nombre » *${randomCharacter.name}*
 ⚥ Género » *${randomCharacter.gender}*
-✰ Valor » *${randomCharacter.value}* ${global.moneda || 'WaguriCoins'}
-♡ Estado » *Libre*
-❖ Fuente » *${randomCharacter.source}*
-✦ ID » *${randomCharacter.id}*
+💸 Valor » *${randomCharacter.value}* ${global.moneda || 'WaguriCoins'}
+⭐ Estado » *Libre*
+💮 Fuente » *${randomCharacter.source}*
+🌸 ID » *${randomCharacter.id}*
 
 ✨ Usa *.claim ${randomCharacter.id}* para reclamarlo.
 `.trim()
