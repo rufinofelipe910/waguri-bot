@@ -5,8 +5,8 @@ import path from "path"
 import fetch from "node-fetch"
 import yts from "yt-search"
 
-const API_KEY = "AETHER-9e11b828d2e18051dca6f902"
-const API_BASE = "https://aetherapi-i7fc.onrender.com/"
+const API_KEY = "NEX-83D0B5F2BEE5455690F53156"
+const API_BASE = "https://nexevo.boxmine.xyz/download/audio"
 
 const fetchWithTimeout = (url, ms = 20000) => {
   const controller = new AbortController()
