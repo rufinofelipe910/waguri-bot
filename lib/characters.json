@@ -1,0 +1,452 @@
+[
+  {
+    "id": "1",
+    "name": "Aika Sano",
+    "gender": "Mujer",
+    "value": "7500",
+    "source": "Ane wa Yanmama Junyuu-chuu",
+    "img": [
+      "https://raw.githubusercontent.com/Kone457/Nexus/refs/heads/main/Anime/43702387cd.jpg"
+    ],
+    "user": null,
+    "status": "Libre",
+    "votes": 0
+  },
+  {
+    "id": "2",
+    "name": "Mariya Mikhailovna Kujou",
+    "gender": "Mujer",
+    "value": "7500",
+    "source": "Tokidoki Bosotto Russia-go de Dereru Tonari no Alya-san",
+    "img": [
+      "https://raw.githubusercontent.com/Kone457/Nexus/refs/heads/main/Anime/7096bcad98.jpg"
+    ],
+    "user": null,
+    "status": "Libre",
+    "votes": 0
+  },
+  {
+    "id": "3",
+    "name": "Mikasa Ackerman",
+    "gender": "Mujer",
+    "value": "7500",
+    "source": "Attack on Titan (Shingeki no Kyojin)",
+    "img": [
+      "https://raw.githubusercontent.com/Kone457/Nexus/refs/heads/main/Anime/5d2820e7a3.jpg"
+    ],
+    "user": null,
+    "status": "Libre",
+    "votes": 0
+  },
+  {
+    "id": "4",
+    "name": "Izuku Midoriya",
+    "gender": "Hombre",
+    "value": "7500",
+    "source": "My Hero Academia",
+    "img": [
+      "https://raw.githubusercontent.com/Kone457/Nexus/refs/heads/main/Anime/b7b6eceaaa.jpg"
+    ],
+    "user": null,
+    "status": "Libre",
+    "votes": 0
+  },
+  {
+    "id": "5",
+    "name": "Misa Amane",
+    "gender": "Mujer",
+    "value": "7500",
+    "source": "Death Note",
+    "img": [
+      "https://raw.githubusercontent.com/Kone457/Nexus/refs/heads/main/Anime/bb51c1ef89.jpg"
+    ],
+    "user": null,
+    "status": "Libre",
+    "votes": 0
+  },
+  {
+    "id": "6",
+    "name": "Asuna Yuuki",
+    "gender": "Mujer",
+    "value": "7500",
+    "source": "Sword Art Online",
+    "img": [
+      "https://raw.githubusercontent.com/Kone457/Nexus/refs/heads/main/Anime/17a7aa2140.jpg"
+    ],
+    "user": null,
+    "status": "Libre",
+    "votes": 0
+  },
+  {
+    "id": "7",
+    "name": "Erza Scarlet",
+    "gender": "Mujer",
+    "value": "7500",
+    "source": "Fairy Tail",
+    "img": [
+      "https://raw.githubusercontent.com/Kone457/Nexus/refs/heads/main/Anime/371ff90539.jpg"
+    ],
+    "user": null,
+    "status": "Libre",
+    "votes": 0
+  },
+  {
+    "id": "8",
+    "name": "Kurumi Tokisaki",
+    "gender": "Mujer",
+    "value": "7550",
+    "source": "Date A live",
+    "img": [
+      "https://raw.githubusercontent.com/Kone457/Nexus/refs/heads/main/Anime/ae758243b3.jpg"
+    ],
+    "user": null,
+    "status": "Libre",
+    "votes": 0
+  },
+  {
+    "id": "9",
+    "name": "Momo Belia Deviluke",
+    "gender": "Mujer",
+    "value": "7500",
+    "source": "To LOVE-Ru",
+    "img": [
+      "https://raw.githubusercontent.com/Kone457/Nexus/refs/heads/main/Anime/8b5e688a6e.jpg"
+    ],
+    "vid": [],
+    "user": null,
+    "status": "libre",
+    "votes": 0
+  },
+  {
+    "id": "10",
+    "name": "Nino Nakano",
+    "gender": "Mujer",
+    "value": "7550",
+    "source": "Gotoubun no Hanayome",
+    "img": [
+      "https://raw.githubusercontent.com/Kone457/Nexus/refs/heads/main/Anime/ca362cabba.jpg"
+    ],
+    "user": null,
+    "status": "Libre",
+    "votes": 0
+  },
+  {
+    "id": "11",
+    "name": "Ryou Yamada ",
+    "gender": "Mujer",
+    "value": "7500",
+    "source": "Bocchi the Rock!",
+    "img": [
+      "https://raw.githubusercontent.com/Kone457/Nexus/refs/heads/main/Anime/559a4cdd20.jpg"
+    ],
+    "user": null,
+    "status": "libre",
+    "votes": 0
+  },
+  {
+    "id": "12",
+    "name": "Sumi Sakurasawa",
+    "gender": "Mujer",
+    "value": "7500",
+    "source": "Rent a Girlfriend",
+    "img": [
+      "https://raw.githubusercontent.com/Kone457/Nexus/refs/heads/main/Anime/d25e8f7879.jpg"
+    ],
+    "user": null,
+    "status": "libre",
+    "votes": 0
+  },
+  {
+    "id": "13",
+    "name": "Umaru Doma",
+    "gender": "Mujer",
+    "value": "7500",
+    "source": "Himouto! Umaru-chan",
+    "img": [
+      "https://raw.githubusercontent.com/Kone457/Nexus/refs/heads/main/Anime/af64412eb2.jpg"
+    ],
+    "user": null,
+    "status": "libre",
+    "votes": 0
+  },
+  {
+    "id": "14",
+    "name": "Chizuru Mizuhara",
+    "gender": "Mujer",
+    "value": "7500",
+    "source": "Rent a Girlfriend",
+    "img": [
+      "https://raw.githubusercontent.com/Kone457/Nexus/refs/heads/main/Anime/847b2d6da6.jpg"
+    ],
+    "user": null,
+    "status": "libre",
+    "votes": 0
+  },
+  {
+    "id": "15",
+    "name": "Makima",
+    "gender": "Mujer",
+    "value": "7500",
+    "source": "Chainsaw Man",
+    "img": [
+      "https://raw.githubusercontent.com/Kone457/Nexus/refs/heads/main/Anime/879c8b1856.jpg"
+    ],
+    "user": null,
+    "status": "Libre",
+    "votes": 0
+  },
+  {
+    "id": "16",
+    "name": "Power",
+    "gender": "Mujer",
+    "value": "7500",
+    "source": "Chainsaw Man",
+    "img": [
+      "https://raw.githubusercontent.com/Kone457/Nexus/refs/heads/main/Anime/43ddeba26b.jpg"
+    ],
+    "user": null,
+    "status": "Libre",
+    "votes": 0
+  },
+  {
+    "id": "17",
+    "name": "Juliet Persia",
+    "gender": "Mujer",
+    "value": "7500",
+    "source": "Kishuku Gakkou no Juliet",
+    "img": [
+      "https://raw.githubusercontent.com/Kone457/Nexus/refs/heads/main/Anime/64fc8d0635.jpg"
+    ],
+    "user": null,
+    "status": "Libre",
+    "votes": 0
+  },
+  {
+    "id": "18",
+    "name": "Kisara",
+    "gender": "Mujer",
+    "value": "7500",
+    "source": "Engage Kiss",
+    "img": [
+      "https://raw.githubusercontent.com/Kone457/Nexus/refs/heads/main/Anime/759bf722e3.jpg"
+    ],
+    "user": null,
+    "status": "Libre",
+    "votes": 0
+  },
+  {
+    "id": "19",
+    "name": "Raphtalia",
+    "gender": "Mujer",
+    "value": "1945",
+    "source": "Tate no Yuusha no Nariagari",
+    "img": [
+      "https://raw.githubusercontent.com/Kone457/Nexus/refs/heads/main/Anime/233b46467b.jpg"
+    ],
+    "user": null,
+    "status": "Libre",
+    "votes": 0
+  },
+  {
+    "id": "21",
+    "name": "Alisa Mikhailovna Kujou",
+    "gender": "Mujer",
+    "value": "7570",
+    "source": "Tokidoki Bosotto Russia-go de Dereru Tonari no Alya-san",
+    "img": [
+      "https://raw.githubusercontent.com/Kone457/Nexus/refs/heads/main/Anime/f5c767e4f2.jpg"
+    ],
+    "user": null,
+    "status": "Libre",
+    "votes": 0
+  },
+  {
+    "id": "22",
+    "name": "Mukuro Hoshimiya",
+    "gender": "Mujer",
+    "value": "7500",
+    "source": "Date A Live",
+    "img": [
+      "https://raw.githubusercontent.com/Kone457/Nexus/refs/heads/main/Anime/56768906f3.jpg"
+    ],
+    "user": null,
+    "status": "Libre",
+    "votes": 0
+  },
+  {
+    "id": "23",
+    "name": "Empty",
+    "gender": "Mujer",
+    "value": "7500",
+    "source": "Date A Live",
+    "img": [
+      "https://raw.githubusercontent.com/Kone457/Nexus/refs/heads/main/Anime/2ff857e8be.jpg"
+    ],
+    "user": null,
+    "status": "Libre",
+    "votes": 0
+  },
+  {
+    "id": "24",
+    "name": "Fenrys",
+    "gender": "Mujer",
+    "value": "7500",
+    "source": "Lv2 kara Cheat datta Motoy Uusha Kouho no Mattari Isekai Life",
+    "img": [
+      "https://raw.githubusercontent.com/Kone457/Nexus/refs/heads/main/Anime/38efbbb706.jpg"
+    ],
+    "user": null,
+    "status": "Libre",
+    "votes": 0
+  },
+  {
+    "id": "25",
+    "name": "Fern",
+    "gender": "Mujer",
+    "value": "7500",
+    "source": "Sousou no Frieren",
+    "img": [
+      "https://raw.githubusercontent.com/Kone457/Nexus/refs/heads/main/Anime/96cdbd3f46.jpg"
+    ],
+    "user": null,
+    "status": "Libre",
+    "votes": 0
+  },
+  {
+    "id": "26",
+    "name": "Yelan",
+    "gender": "Mujer",
+    "value": "7500",
+    "source": "Geshin Impact",
+    "img": [
+      "https://raw.githubusercontent.com/Kone457/Nexus/refs/heads/main/Anime/3bec675523.jpg"
+    ],
+    "user": null,
+    "status": "Libre",
+    "votes": 0
+  },
+  {
+    "id": "27",
+    "name": "Lloyd Frontera",
+    "gender": "Hombre",
+    "value": "7500",
+    "source": "The Greatest Estate Developer",
+    "img": [
+      "https://raw.githubusercontent.com/Kone457/Nexus/refs/heads/main/Anime/2b4efc00ca.jpg"
+    ],
+    "user": null,
+    "status": "Libre",
+    "votes": 0
+  },
+  {
+    "id": "28",
+    "name": "Gotou Hitori",
+    "gender": "Mujer",
+    "value": "7505",
+    "source": "Bocchi the Rock!",
+    "img": [
+      "https://raw.githubusercontent.com/Kone457/Nexus/refs/heads/main/Anime/b43011cb33.jpg"
+    ],
+    "user": null,
+    "status": "Libre",
+    "votes": 0
+  },
+  {
+    "id": "29",
+    "name": "Hu Tao",
+    "gender": "Mujer",
+    "value": "7502",
+    "source": "Genshin Impact",
+    "img": [
+      "https://raw.githubusercontent.com/Kone457/Nexus/refs/heads/main/Anime/9dbb564ee8.jpg"
+    ],
+    "user": null,
+    "status": "Libre",
+    "votes": 0
+  },
+  {
+    "id": "30",
+    "name": "Ayane Shirakawa",
+    "gender": "Mujer",
+    "value": "7500",
+    "source": "Overflow",
+    "img": [
+      "https://raw.githubusercontent.com/Kone457/Nexus/refs/heads/main/Anime/1831d37b0b.jpg"
+    ],
+    "user": null,
+    "status": "Libre",
+    "votes": 0
+  },
+  {
+    "id": "31",
+    "name": "Kotone Shirakawa",
+    "gender": "Mujer",
+    "value": "7500",
+    "source": "Overflow",
+    "img": [
+      "https://raw.githubusercontent.com/Kone457/Nexus/refs/heads/main/Anime/8e0c3a48aa.jpg"
+    ],
+    "user": null,
+    "status": "Libre",
+    "votes": 0
+  },
+  {
+    "id": "32",
+    "name": "Yuki Suou",
+    "gender": "Mujer",
+    "value": "7500",
+    "source": "Tokidoki Bosotto Russia-go de Dereru Tonari no Alya-san",
+    "img": [
+      "https://raw.githubusercontent.com/Kone457/Nexus/refs/heads/main/Anime/56e92d39b3.jpg"
+    ],
+    "user": null,
+    "status": "Libre",
+    "votes": 0
+  },
+  {
+    "id": "33",
+    "name": "Akari Akaza",
+    "gender": "Mujer",
+    "value": "7500",
+    "source": "Yuru Yuri",
+    "img": [
+      "https://raw.githubusercontent.com/Kone457/Nexus/refs/heads/main/Anime/8a2fdb719d.jpg"
+    ],
+    "user": null,
+    "status": "Libre",
+    "votes": 0
+  },
+  {
+    "id": "34",
+    "name": "Bulma",
+    "gender": "Mujer",
+    "value": "7500",
+    "source": "Dragon ball",
+    "img": [
+      "https://raw.githubusercontent.com/Kone457/Nexus/refs/heads/main/Anime/8097fe92d1.jpg"
+    ],
+    "user": null,
+    "status": "Libre",
+    "votes": 0
+  },
+  {
+    "id": "35",
+    "name": "Ruby Hoshino",
+    "gender": "Mujer",
+    "value": "7500",
+    "source": "Oshi no Ko",
+    "img": [
+      "https://raw.githubusercontent.com/Kone457/Nexus/refs/heads/main/Anime/be27b2f794.jpg"
+    ],
+    "user": null,
+    "status": "Libre",
+    "votes": 0
+  },
+  {
+    "id": "36",
+    "name": "Cid Kagenou",
+    "gender": "Hombre",
+    "value": "7500",
+    "source": "Eminece Shadow",
+    "img": [
+      "https://raw.githubusercontent.com/Kone457/Nexus/refs/heads/main/Anime/130659cfc1.jpg"
