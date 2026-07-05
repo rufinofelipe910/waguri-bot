@@ -6,7 +6,7 @@ import fetch from "node-fetch"
 import yts from "yt-search"
 
 const API_KEY = "reyrufino-20072010"
-const API_BASE = "https://rest.apicausas.xyz/api/v1/descargas"
+const API_BASE = "https://rest.apicausas.xyz/api/v1/descargas/youtube"
 
 const fetchWithTimeout = (url, ms = 20000) => {
   const controller = new AbortController()
@@ -60,7 +60,7 @@ const handler = async (m, { conn, text, command }) => {
       { quoted: m }
     )
 
-    const apiUrl = `${API_BASE}?apikey=${API_KEY}&url=${encodeURIComponent(url)}&type=${type}`
+    const apiUrl = `${API_BASE}?apikey=${API_KEY}&url=${encodeURIComponent(url)}&type=${type}&quality=720`
 
     const res = await fetchWithTimeout(apiUrl, 30000)
     if (!res.ok) throw new Error(`API respondió con status ${res.status}`)
