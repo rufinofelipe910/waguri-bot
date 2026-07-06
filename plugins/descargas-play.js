@@ -8,6 +8,9 @@ import yts from "yt-search"
 const API_KEY = "api-uMZCY"
 const API_BASE = "https://api.alyacore.xyz/dl/youtubeplayv2"
 
+// Guarda las sesiones de espera de respuesta (chat+usuario -> datos del video)
+const pendingChoices = new Map()
+
 const fetchWithTimeout = (url, ms = 20000) => {
   const controller = new AbortController()
   const timeout = setTimeout(() => controller.abort(), ms)
@@ -17,8 +20,6 @@ const fetchWithTimeout = (url, ms = 20000) => {
 const youtubeRegexID = /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([a-zA-Z0-9_-]{11})/
 
 const handler = async (m, { conn, text, command }) => {
-  const tmpFiles = []
-
   try {
     if (!text.trim()) {
       return conn.reply(
@@ -46,18 +47,79 @@ const handler = async (m, { conn, text, command }) => {
 
     const { title, thumbnail, timestamp, views, ago, url } = ytSearch
     const vistas = formatViews(views)
-    const type = ["play", "yta", "ytmp3", "playaudio"].includes(command) ? "audio" : "video"
 
-    await conn.sendMessage(
+    const sentMsg = await conn.sendMessage(
       m.chat,
       {
         image: { url: thumbnail },
-        caption: `╭─「 🌸 *WAGURI BOT* 🌸 」\n│\n│ 🎬 *${title}*\n│\n│ 👁️ Vistas   » *${vistas}*\n│ ⏳ Duración » *${timestamp}*\n│ 📅 Subido   » *${ago}*\n│\n│ 📥 Procesando tu archivo~\n│    Por favor espera 💗\n│\n╰────────────────────`,
+        caption: `╭─「 🌸 *WAGURI BOT* 🌸 」\n│\n│ 🎬 *${title}*\n│\n│ 👁️ Vistas   » *${vistas}*\n│ ⏳ Duración » *${timestamp}*\n│ 📅 Subido   » *${ago}*\n│\n│ 📌 ¿En qué formato lo quieres?\n│\n│ 1️⃣ Responde *1* para 🎧 MP3\n│ 2️⃣ Responde *2* para 🎬 MP4\n│\n│ ⏱️ Tienes 60 segundos para elegir~\n│\n╰────────────────────`,
         contextInfo: {
           mentionedJid: [m.sender]
         }
       },
       { quoted: m }
+    )
+
+    const sessionKey = m.chat + m.sender
+    const previous = pendingChoices.get(sessionKey)
+    if (previous) clearTimeout(previous.timeoutId)
+
+    const timeoutId = setTimeout(() => {
+      const session = pendingChoices.get(sessionKey)
+      if (session) {
+        pendingChoices.delete(sessionKey)
+        conn.reply(
+          m.chat,
+          `╭─「 🌸 *WAGURI BOT* 🌸 」\n│\n│ ⌛ Se acabó el tiempo~\n│    Usa el comando de nuevo\n│\n╰────────────────────`,
+          m
+        )
+      }
+    }, 60000)
+
+    pendingChoices.set(sessionKey, {
+      title, thumbnail, timestamp, views, ago, url,
+      timeoutId,
+      quoted: m
+    })
+
+  } catch (e) {
+    conn.reply(
+      m.chat,
+      `╭─「 🌸 *WAGURI BOT* 🌸 」\n│\n│ ❌ Ocurrió un error~\n│ ⚠️ *${e.message}*\n│\n╰────────────────────`,
+      m
+    )
+  }
+}
+
+handler.command = handler.help = ["play", "yta", "ytmp3", "playaudio", "play2", "ytv", "ytmp4"]
+handler.tags = ["descargas"]
+handler.group = true
+handler.register = true
+
+// --- Handler que escucha la respuesta del usuario (1 o 2) ---
+handler.before = async (m, { conn }) => {
+  const sessionKey = m.chat + m.sender
+  const session = pendingChoices.get(sessionKey)
+  if (!session) return
+
+  const body = (m.text || "").trim().toLowerCase()
+  const isAudio = ["1", "mp3", "audio"].includes(body)
+  const isVideo = ["2", "mp4", "video"].includes(body)
+
+  if (!isAudio && !isVideo) return
+
+  clearTimeout(session.timeoutId)
+  pendingChoices.delete(sessionKey)
+
+  const type = isAudio ? "audio" : "video"
+  const { title, url } = session
+  const tmpFiles = []
+
+  try {
+    await conn.reply(
+      m.chat,
+      `╭─「 🌸 *WAGURI BOT* 🌸 」\n│\n│ 📥 Procesando tu ${type === "audio" ? "audio 🎧" : "video 🎬"}~\n│    Por favor espera 💗\n│\n╰────────────────────`,
+      m
     )
 
     const apiUrl = `${API_BASE}?apikey=${API_KEY}&url=${encodeURIComponent(url)}&type=${type}&quality=720`
@@ -123,11 +185,6 @@ const handler = async (m, { conn, text, command }) => {
     }
   }
 }
-
-handler.command = handler.help = ["play", "yta", "ytmp3", "playaudio", "play2", "ytv", "ytmp4"]
-handler.tags = ["descargas"]
-handler.group = true
-handler.register = true
 
 export default handler
 
