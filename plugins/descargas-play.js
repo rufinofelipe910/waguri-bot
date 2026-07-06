@@ -1,127 +1,167 @@
-// código creado por Rufino
-
-import fs from "fs"
-import path from "path"
+import { prepareWAMessageMedia } from '@whiskeysockets/baileys'
 import fetch from "node-fetch"
-import yts from "yt-search"
+import yts from 'yt-search'
 
-const API_KEY = "api-uMZCY"
-const API_BASE = "https://api.alyacore.xyz/dl/ytmp3"
-
-const fetchWithTimeout = (url, ms = 20000) => {
-  const controller = new AbortController()
-  const timeout = setTimeout(() => controller.abort(), ms)
-  return fetch(url, { signal: controller.signal }).finally(() => clearTimeout(timeout))
-}
+const apikey = 'API_KEY_AQUI'
 
 const youtubeRegexID = /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([a-zA-Z0-9_-]{11})/
 
-const handler = async (m, { conn, text, command }) => {
-  const tmpFiles = []
-
-  try {
-    if (!text.trim()) {
-      return conn.reply(
-        m.chat,
-        `╭─「 🌸 *WAGURI BOT* 🌸 」\n│\n│ 🎵 Ingresa el nombre o enlace\n│    del video que deseas ~\n│\n╰────────────────────`,
-        m
-      )
-    }
-
-    const videoIdMatch = text.match(youtubeRegexID)
-    let ytSearch = null
-
-    if (videoIdMatch) {
-      ytSearch = await yts({ videoId: videoIdMatch[1] })
-    } else {
-      const result = await yts(text)
-      ytSearch = result.videos?.[0]
-    }
-
-    if (!ytSearch?.title) return conn.reply(
-      m.chat,
-      `╭─「 🌸 *WAGURI BOT* 🌸 」\n│\n│ 🦋 No encontré resultados~\n│    Intenta con otro nombre\n│\n╰────────────────────`,
-      m
-    )
-
-    const { title, thumbnail, timestamp, views, ago, url } = ytSearch
-    const vistas = formatViews(views)
-
-    await conn.sendMessage(
-      m.chat,
-      {
-        image: { url: thumbnail },
-        caption: `╭─「 🌸 *WAGURI BOT* 🌸 」\n│\n│ 🎬 *${title}*\n│\n│ 👁️ Vistas   » *${vistas}*\n│ ⏳ Duración » *${timestamp}*\n│ 📅 Subido   » *${ago}*\n│\n│ 🎧 Procesando tu audio~\n│    Por favor espera 💗\n│\n╰────────────────────`,
-        contextInfo: {
-          mentionedJid: [m.sender]
-        }
-      },
-      { quoted: m }
-    )
-
-    const apiUrl = `${API_BASE}?apikey=${API_KEY}&url=${encodeURIComponent(url)}`
-
-    const res = await fetchWithTimeout(apiUrl, 30000)
-    if (!res.ok) throw new Error(`API respondió con status ${res.status}`)
-
-    const json = await res.json()
-    if (!json?.status || !json?.data?.download?.url) {
-      throw new Error(json?.message || "La API no devolvió un enlace de descarga")
-    }
-
-    const downloadUrl = json.data.download.url
-
-    const tmpDir = "./tmp"
-    if (!fs.existsSync(tmpDir)) fs.mkdirSync(tmpDir)
-
-    const base = Date.now()
-    const filePath = path.join(tmpDir, `${base}.mp3`)
-    tmpFiles.push(filePath)
-
-    const buffer = await fetchWithTimeout(downloadUrl, 60000).then(r => r.arrayBuffer())
-    fs.writeFileSync(filePath, Buffer.from(buffer))
-
-    await conn.sendMessage(
-      m.chat,
-      {
-        audio: fs.readFileSync(filePath),
-        fileName: `${title}.mp3`,
-        mimetype: "audio/mpeg",
-        ptt: false
-      },
-      { quoted: m }
-    )
-
-    await conn.reply(
-      m.chat,
-      `╭─「 🌸 *WAGURI BOT* 🌸 」\n│\n│ ✅ *¡Listo!* Tu audio llegó ~\n│ 🌸 Disfrútalo mucho 💗\n│\n╰────────────────────`,
-      m
-    )
-
-  } catch (e) {
-    conn.reply(
-      m.chat,
-      `╭─「 🌸 *WAGURI BOT* 🌸 」\n│\n│ ❌ Ocurrió un error~\n│ ⚠️ *${e.message}*\n│\n╰────────────────────`,
-      m
-    )
-  } finally {
-    for (const f of tmpFiles) {
-      if (fs.existsSync(f)) fs.unlinkSync(f)
-    }
-  }
+function parseDuration(timestamp) {
+  if (!timestamp || timestamp === 'N/A') return 0
+  const parts = timestamp.split(':').map(Number)
+  if (parts.length === 3) return parts[0] * 3600 + parts[1] * 60 + parts[2]
+  if (parts.length === 2) return parts[0] * 60 + parts[1]
+  return 0
 }
 
-handler.command = handler.help = ["play", "yta", "ytmp3", "playaudio"]
-handler.tags = ["descargas"]
-handler.group = true
-handler.register = true
+export default {
+  command: ['play', 'yta', 'ytmp3', 'play2', 'ytv', 'ytmp4', 'playaudio', 'mp4'],
+  category: 'descargas',
+  run: async (client, m, args, command) => {
+    try {
+      const text = args.join(' ')
 
-export default handler
+      if (!text.trim()) return m.reply(`❍ Por favor, proporciona un nombre o enlace de YouTube`)
+
+      let ytplay2 = null
+      const isUrl = /^https?:\/\/(www\.)?(youtube\.com|youtu\.be)/.test(text)
+
+      if (isUrl) {
+        try {
+          const result = await yts(text)
+          ytplay2 = result.all?.[0] || result.videos?.[0] || null
+        } catch (_) {}
+
+        if (!ytplay2 || !ytplay2.url) {
+          ytplay2 = {
+            url: text,
+            title: 'Desconocido',
+            thumbnail: '',
+            timestamp: 'N/A',
+            views: null,
+            ago: 'N/A',
+            author: { url: 'Desconocido' }
+          }
+        }
+      } else {
+        ytplay2 = await yts(text)
+        ytplay2 = ytplay2.all?.[0] || ytplay2.videos?.[0] || ytplay2
+        if (!ytplay2 || !ytplay2.url) return m.reply(`❍ No se encontraron resultados`)
+      }
+
+      let { title, thumbnail, timestamp, views, ago, url, author } = ytplay2
+      const vistas    = formatViews(views)
+      const canalLink = author?.url || 'Desconocido'
+      const duracion  = parseDuration(timestamp)
+
+      const infoMessage = `¡! ׂׂૢ *Download Youtube*
+✩̣̣̣̣̣ͯ┄•͙✧⃝•͙┄✩ͯ•͙͙✧⃝•͙͙✩ͯ
+
+❍ *Título* › *${title || 'Desconocido'}*
+❍ *Vistas* › *${vistas}*
+❍ *Duración* › *${timestamp}*
+❍ *Publicado* › *${ago}*
+❍ *Canal* › *${canalLink}*
+❍ *Enlace* › *${url}*
+
+──⇌••⇋──
+
+${dev}`
+
+      const prepared = thumbnail
+        ? await prepareWAMessageMedia(
+            { image: { url: thumbnail } },
+            { upload: client.waUploadToServer, mediaTypeOverride: 'thumbnail-link' }
+          )
+        : null
+
+      const image = prepared?.image || prepared?.imageMessage
+
+      const linkPreview = url && thumbnail
+        ? {
+            'canonical-url':      url,
+            'matched-text':       url,
+            title:                title || botname,
+            description:          dev,
+            jpegThumbnail:        image?.jpegThumbnail ? Buffer.from(image.jpegThumbnail) : undefined,
+            highQualityThumbnail: image || undefined
+          }
+        : undefined
+
+      await client.sendMessage(m.chat, {
+        text:        infoMessage.trim(),
+        linkPreview,
+        contextInfo: { mentionedJid: [] }
+      }, { quoted: m })
+
+      if (['play', 'yta', 'ytmp3', 'playaudio'].includes(command)) {
+        try {
+          const api = await (await fetch(
+            `https://api.alyacore.xyz/dl/ytmp3v2?url=${encodeURIComponent(url)}&key=${apikey}`
+          )).json()
+
+          if (!api.status || !api.data?.dl) throw new Error(api.message || 'La API no devolvió status=true')
+
+          const dl       = api.data.dl
+          const fileName = (api.data.title || 'audio') + '.mp3'
+
+          if (duracion <= 3600) {
+            await client.sendMessage(m.chat, {
+              audio:    { url: dl },
+              fileName: fileName,
+              mimetype: 'audio/mpeg',
+              ptt:      false
+            }, { quoted: m })
+          } else {
+            await client.sendMessage(m.chat, {
+              document: { url: dl },
+              fileName: fileName,
+              mimetype: 'audio/mpeg'
+            }, { quoted: m })
+          }
+
+        } catch (e) {
+          return m.reply(`❍ Error al descargar el audio`)
+        }
+      }
+
+      else if (['play2', 'ytv', 'ytmp4', 'mp4'].includes(command)) {
+        await client.reply(m.chat, `❍ Descargando video en 480p...`, m)
+
+        try {
+          const api = await (await fetch(
+            `https://api.alyacore.xyz/dl/ytmp4?url=${encodeURIComponent(url)}&quality=360&key=${apikey}`
+          )).json()
+
+          if (!api.status || !api.data?.dl) throw new Error(api.message || 'La API no devolvió status=true')
+
+          const { title: fileTitle, dl, quality } = api.data
+
+          await client.sendMessage(m.chat, {
+            document: { url: dl },
+            fileName: (fileTitle || `video_${quality || '360'}p`) + '.mp4',
+            mimetype: 'video/mp4',
+            caption:  `${dev}`
+          }, { quoted: m })
+
+        } catch (e) {
+          console.error('Error en descarga de video:', e)
+          return m.reply(`❍ Error al descargar el video`)
+        }
+      } else {
+        return m.reply(`❍ Comando no reconocido`)
+      }
+
+    } catch (error) {
+      return m.reply(`❍ Error: ${error.message}`)
+    }
+  },
+}
 
 function formatViews(views) {
   if (!views) return "No disponible"
-  if (views >= 1e9) return `${(views / 1e9).toFixed(1)}B`
-  if (views >= 1e6) return `${(views / 1e6).toFixed(1)}M`
-  if (views >= 1e3) return `${(views / 1e3).toFixed(1)}k`
+  if (views >= 1_000_000_000) return `${(views / 1_000_000_000).toFixed(1)}B (${views.toLocaleString()})`
+  if (views >= 1_000_000)     return `${(views / 1_000_000).toFixed(1)}M (${views.toLocaleString()})`
+  if (views >= 1_000)         return `${(views / 1_000).toFixed(1)}k (${views.toLocaleString()})`
   return views.toString()
 }
