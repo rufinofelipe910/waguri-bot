@@ -1,4 +1,3 @@
-import { prepareWAMessageMedia } from '@whiskeysockets/baileys'
 import fetch from "node-fetch"
 import yts from 'yt-search'
 
@@ -68,29 +67,9 @@ const handler = async (m, { conn, text, command }) => {
 
     const infoMessage = `╭─「 🌸 *WAGURI BOT* 🌸 」\n│\n│ 🎬 *${title || 'Desconocido'}*\n│\n│ 👁️ Vistas   » *${vistas}*\n│ ⏳ Duración » *${timestamp}*\n│ 📅 Subido   » *${ago}*\n│ 📺 Canal    » *${canalLink}*\n│\n│ 📥 Procesando tu ${esVideo ? 'video 🎬' : 'audio 🎧'}~\n│    Por favor espera 💗\n│\n╰────────────────────`
 
-    const prepared = thumbnail
-      ? await prepareWAMessageMedia(
-          { image: { url: thumbnail } },
-          { upload: conn.waUploadToServer, mediaTypeOverride: 'thumbnail-link' }
-        )
-      : null
-
-    const image = prepared?.image || prepared?.imageMessage
-
-    const linkPreview = url && thumbnail
-      ? {
-          'canonical-url':      url,
-          'matched-text':       url,
-          title:                title || 'WAGURI BOT',
-          description:          '🌸 Waguri Bot',
-          jpegThumbnail:        image?.jpegThumbnail ? Buffer.from(image.jpegThumbnail) : undefined,
-          highQualityThumbnail: image || undefined
-        }
-      : undefined
-
     await conn.sendMessage(m.chat, {
-      text: infoMessage.trim(),
-      linkPreview,
+      image: thumbnail ? { url: thumbnail } : undefined,
+      caption: infoMessage.trim(),
       contextInfo: { mentionedJid: [m.sender] }
     }, { quoted: m })
 
