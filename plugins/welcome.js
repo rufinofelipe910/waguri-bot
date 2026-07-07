@@ -24,14 +24,17 @@ handler.before = async function (m, { conn }) {
       let userName = `@${user.split('@')[0]}`
       let pp = await conn.profilePictureUrl(user, 'image').catch(_ => null) || 'https://files.catbox.moe/92bez6.jpeg'
 
+      let totalMiembros = groupMetadata?.participants?.length || '?'
+
       let text = chat.sWelcome
         ? chat.sWelcome
-        : `✿°• 𝗡𝗨𝗘𝗩𝗢 𝗨𝗦𝗨𝗔𝗥𝗜𝗢 •°✿\n\n💖 Bienvenido/a ${userName} a *${groupName}* 🌸${groupDesc ? `\n\n📋 Descripción:\n${groupDesc}` : ''}`
+        : `✿°• 𝗡𝗨𝗘𝗩𝗢 𝗨𝗦𝗨𝗔𝗥𝗜𝗢 •°✿\n\n💖 Bienvenido/a ${userName} a *${groupName}* 🌸\n\n👥 Ahora somos *${totalMiembros}* miembros`
 
       text = text
         .replace(/@user/g, userName)
         .replace(/@group/g, groupName)
         .replace(/@desc/g, groupDesc)
+        .replace(/@miembros/g, totalMiembros)
 
       await conn.sendMessage(m.chat, { image: { url: pp }, caption: text, mentions: [user] }, { quoted: fkontak })
     }
