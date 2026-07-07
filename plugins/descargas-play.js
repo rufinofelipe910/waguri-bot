@@ -2,7 +2,7 @@ import { prepareWAMessageMedia } from '@whiskeysockets/baileys'
 import fetch from "node-fetch"
 import yts from 'yt-search'
 
-const apikey = 'API_KEY_AQUI'
+const apikey = 'api-uMZCY'
 
 function parseDuration(timestamp) {
   if (!timestamp || timestamp === 'N/A') return 0
