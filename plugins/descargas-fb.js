@@ -2,8 +2,8 @@
 
 import fetch from 'node-fetch';
 
-const API_KEY = 'reyrufino-20072010';
-const API_URL = 'https://rest.apicausas.xyz/api/v1/descargas/facebook';
+const API_KEY = 'api-uMZCY';
+const API_URL = 'https://api.alyacore.xyz/dl/facebook';
 
 function extractMediaUrl(data) {
     return (
