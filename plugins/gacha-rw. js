@@ -1,5 +1,13 @@
 import fetch from 'node-fetch'
 
+global.nombreesWaifu = global.nombreesWaifu || [
+  'Sakura', 'Yuki', 'Aiko', 'Rin', 'Mei', 'Hana', 'Kaori', 'Nozomi', 'Airi', 'Emi',
+  'Yumi', 'Sora', 'Aoi', 'Mio', 'Rei', 'Nana', 'Yui', 'Suzu', 'Momo', 'Riko',
+  'Akane', 'Chie', 'Daichi', 'Eiko', 'Fumi', 'Gaku', 'Hoshi', 'Isao', 'Jiro', 'Katsuki',
+  'Luna', 'Mitsuki', 'Natsu', 'Orin', 'Priya', 'Quill', 'Raven', 'Sasha', 'Tsubaki', 'Ume',
+  'Violet', 'Wren', 'Xiao', 'Yara', 'Zara', 'Amara', 'Bella', 'Cora', 'Daphne', 'Estelle'
+]
+
 let cooldowns = {}
 global.waifuOffers = global.waifuOffers || {}
 
