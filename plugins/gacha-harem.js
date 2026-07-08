@@ -1,29 +1,16 @@
-import { promises as fs } from 'fs'
-
-const charactersFilePath = './lib/characters.json'
-
-async function loadCharacters() {
-  const data = await fs.readFile(charactersFilePath, 'utf-8')
-  return JSON.parse(data)
-}
-
 let handler = async (m, { conn }) => {
-  try {
-    const characters = await loadCharacters()
-    const mios = characters.filter(c => c.user === m.sender)
+  let user = global.db.data.users[m.sender]
+  let harem = user.harem || []
 
-    if (!mios.length) {
-      return conn.reply(m.chat, `🌸 Tu harem está vacío. Usa *.rw* para invocar un personaje y *.claim <id>* para reclamarlo.`, m, global.rcanal)
-    }
-
-    const total = mios.reduce((a, c) => a + c.value, 0)
-    const lista = mios.map(c => `✦ *${c.id}* — *${c.name}* — 💰 ${c.value} ${global.moneda || 'WaguriCoins'} — ${c.source}`).join('\n')
-
-    conn.reply(m.chat, `💖 *TU HAREM* (${mios.length}) 💖\n\n${lista}\n\n💰 Valor total: *${total}* ${global.moneda || 'WaguriCoins'}\n\n✨ Usa *.vender <id>* para vender un personaje.`, m, global.rcanal)
-
-  } catch (error) {
-    conn.reply(m.chat, `✘ Error: ${error.message}`, m, global.rcanal)
+  if (!harem.length) {
+    return conn.reply(m.chat, `🌸 Tu harem está vacío. Usa *.rw* para invocar tu primera waifu.`, m, global.rcanal)
   }
+
+  let total = harem.reduce((a, w) => a + w.precio, 0)
+
+  let lista = harem.map((w, i) => `*${i + 1}.* ${w.emoji} *${w.nombre}* — ${w.rareza} — 💰 ${w.precio} ${global.moneda || 'WaguriCoins'}`).join('\n')
+
+  conn.reply(m.chat, `💖 *TU HAREM* (${harem.length}) 💖\n\n${lista}\n\n💰 Valor total: *${total}* ${global.moneda || 'WaguriCoins'}\n\n✨ Usa *.vender <número>* para vender una waifu.`, m, global.rcanal)
 }
 
 handler.help = ['harem']
