@@ -1,4 +1,4 @@
-let handler = async (m, { conn, args }) => {
+var handler = async (m, { conn, args }) => {
   let user = global.db.data.users[m.sender]
   let harem = user.harem || []
 
@@ -20,6 +20,8 @@ let handler = async (m, { conn, args }) => {
 handler.help = ['vender']
 handler.tags = ['gacha']
 handler.command = ['vender', 'venderwaifu']
+handler.fail = null
+handler.exp = 0
 handler.group = true
 handler.register = true
 
