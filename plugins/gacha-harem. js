@@ -1,0 +1,22 @@
+let handler = async (m, { conn }) => {
+  let user = global.db.data.users[m.sender]
+  let harem = user.harem || []
+
+  if (!harem.length) {
+    return conn.reply(m.chat, `🌸 Tu harem está vacío. Usa *.rw* para invocar tu primera waifu.`, m, global.rcanal)
+  }
+
+  let total = harem.reduce((a, w) => a + w.precio, 0)
+
+  let lista = harem.map((w, i) => `*${i + 1}.* ${w.emoji} *${w.nombre}* — ${w.rareza} — 💰 ${w.precio} ${global.moneda || 'WaguriCoins'}`).join('\n')
+
+  conn.reply(m.chat, `💖 *TU HAREM* (${harem.length}) 💖\n\n${lista}\n\n💰 Valor total: *${total}* ${global.moneda || 'WaguriCoins'}\n\n✨ Usa *.vender <número>* para vender una waifu.`, m, global.rcanal)
+}
+
+handler.help = ['harem']
+handler.tags = ['gacha']
+handler.command = ['harem', 'miharem']
+handler.group = true
+handler.register = true
+
+export default handler
