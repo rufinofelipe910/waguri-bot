@@ -2,8 +2,8 @@
 
 import fetch from 'node-fetch';
 
-const API_KEY = 'reyrufino-20072010';
-const API_URL = 'https://rest.apicausas.xyz/api/v1/descargas/mediafire';
+const API_KEY = 'api-uMZCY';
+const API_URL = 'https://api.alyacore.xyz/dl/mediafire';
 
 function extractFileInfo(data) {
     const url =
