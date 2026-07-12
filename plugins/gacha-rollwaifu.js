@@ -1,115 +1,122 @@
-import fetch from 'node-fetch'
+import { promises as fs } from 'fs'
 
-let cooldowns = {}
-global.waifuOffers = global.waifuOffers || {}
+const charactersFilePath = './src/database/characters.json'
+const cooldowns = {}
 
-const rarezas = [
-  { nombre: 'Común', emoji: '⚪', min: 500, max: 1500, peso: 50 },
-  { nombre: 'Rara', emoji: '🔵', min: 1500, max: 4000, peso: 30 },
-  { nombre: 'Épica', emoji: '🟣', min: 4000, max: 8000, peso: 15 },
-  { nombre: 'Legendaria', emoji: '🟡', min: 8000, max: 15000, peso: 5 }
-]
-
-function elegirRareza() {
-  let total = rarezas.reduce((a, r) => a + r.peso, 0)
-  let rand = Math.random() * total
-  for (let r of rarezas) {
-    if (rand < r.peso) return r
-    rand -= r.peso
-  }
-  return rarezas[0]
+async function loadCharacters() {
+    try {
+        const data = await fs.readFile(charactersFilePath, 'utf-8')
+        return JSON.parse(data)
+    } catch (error) {
+        throw new Error('❀ No se pudo cargar el archivo characters.json.')
+    }
 }
 
-function pickRandom(list) {
-  return list[Math.floor(Math.random() * list.length)]
+let handler = async (m, { conn }) => {
+    // --- BLOQUEO POR EVENTO ADMIN ABUSE ---
+    if (global.adminAbuse) {
+        return await conn.reply(m.chat, `⚠️ **¡𝘼𝘿𝙈𝙄𝙉 𝘼𝘽𝙐𝙎𝙀 𝘼𝘾𝙏𝙄𝙑𝙊!**\n\nNo puedes usar **#rw** manualmente ahora mismo. ¡Espera a que el bot lance personajes y usa **#c** para reclamar!`, m)
+    }
+
+    const userId = m.sender
+    const now = Date.now()
+    const COOLDOWN_TIME = 15 * 60 * 1000 
+
+    if (cooldowns[userId] && now < cooldowns[userId]) {
+        const remainingTime = Math.ceil((cooldowns[userId] - now) / 1000)
+        const minutes = Math.floor(remainingTime / 60)
+        const seconds = remainingTime % 60
+        return await conn.reply(m.chat, ε(´｡•᎑•)っ ¡𝗗𝗲𝗯𝗲𝘀 𝗲𝘀𝗽𝗲𝗿𝗮𝗿 *${minutes} minutos y ${seconds} segundos* 𝗽𝗮𝗿𝗮 𝘃𝗼𝗹𝘃𝗲𝗿  𝘂𝘀𝗮𝗿 *.rw* 𝗱𝗲 𝗻𝘂𝗲𝘃𝗼.`, m)
+    }
+
+    try {
+        let characters = await loadCharacters()
+        let randomCharacter = characters[Math.floor(Math.random() * characters.length)]
+
+        if (randomCharacter.user) {
+            for (let i = 0; i < 3; i++) {
+                let retry = characters[Math.floor(Math.random() * characters.length)]
+                if (!retry.user) {
+                    randomCharacter = retry
+                    break
+                }
+            }
+        }
+
+        const hasVideos = randomCharacter.vid && randomCharacter.vid.length > 0
+        const hasImages = randomCharacter.img && randomCharacter.img.length > 0
+
+        let resourceURL
+        let resourceType 
+
+        if (hasVideos && hasImages) {
+            if (Math.random() < 0.7) {
+                resourceURL = randomCharacter.vid[Math.floor(Math.random() * randomCharacter.vid.length)]
+                resourceType = 'video'
+            } else {
+                resourceURL = randomCharacter.img[Math.floor(Math.random() * randomCharacter.img.length)]
+                resourceType = 'image'
+            }
+        } else if (hasVideos) {
+            resourceURL = randomCharacter.vid[Math.floor(Math.random() * randomCharacter.vid.length)]
+            resourceType = 'video'
+        } else if (hasImages) {
+            resourceURL = randomCharacter.img[Math.floor(Math.random() * randomCharacter.img.length)]
+            resourceType = 'image'
+        } else {
+            return await conn.reply(m.chat, '✘ Este personaje no tiene imágenes ni videos configurados.', m)
+        }
+
+        if (resourceURL.match(/\.(jpg|jpeg|png|webp|gif)$/i)) resourceType = 'image'
+        if (resourceURL.match(/\.(mp4|mov|avi)$/i)) resourceType = 'video'
+
+        const statusMessage = randomCharacter.user
+            ? `Reclamado por @${randomCharacter.user.split('@')[0]}`
+            : '✨ ¡𝗟𝗶𝗯𝗿𝗲! ¡𝗨𝘀𝗮 #claim para reclamar!'
+
+        const message = `🌸 ⋆｡˚ ☁︎ ˚｡⋆ 🌸\n\n` +
+`╭─────────  ꒰ 🐰 ꒱ ─────────╮\n` +
+`     ✧･ﾟ: *𝙄𝙉𝙁𝙊𝙍𝙈𝘼𝘾𝙄𝙊𝙉* :･ﾟ✧\n` +
+`╰─────────  ꒰ 🎀 ꒱ ─────────╯\n\n` +
+
+`🌷 ╭─── 𝘿𝘼𝙏𝙊𝙎 ───╮ 🌷\n` +
+`💮 │ > 𝙉𝙊𝙈𝘽𝙍𝙀: *${randomCharacter.name}*\n` +
+`🎀 │ > 𝙂𝙀𝙉𝙀𝙍𝙊: *${randomCharacter.gender}*\n` +
+`🌸 │ > 𝙑𝘼𝙇𝙊𝙍: *${randomCharacter.value}*\n` +
+`🍓 │ > 𝙀𝙎𝙏𝘼𝘿𝙊: ${statusMessage}\n` +
+`🐰 │ > 𝙁𝙐𝙀𝙉𝙏𝙀: *${randomCharacter.source}*\n` +
+`🎐 │ > 𝙄𝘿: *${randomCharacter.id}*\n` +
+`🌷 ╰──────────────╯ 🌷\n\n` +
+
+`⋆˚꒰🧸꒱˚⋆  Listo!  ⋆˚꒰🍡꒱˚⋆`
+        const mentions = randomCharacter.user ? [randomCharacter.user] : []
+
+        if (resourceType === 'video') {
+            await conn.sendMessage(m.chat, { 
+                video: { url: resourceURL }, 
+                gifPlayback: true, 
+                caption: message,
+                mentions 
+            }, { quoted: m })
+        } else {
+            await conn.sendMessage(m.chat, { 
+                image: { url: resourceURL }, 
+                caption: message,
+                mentions 
+            }, { quoted: m })
+        }
+
+        cooldowns[userId] = now + COOLDOWN_TIME
+
+    } catch (error) {
+        console.error(error)
+        await conn.reply(m.chat, `✘ Error al cargar el personaje: ${error.message}`, m)
+    }
 }
 
-global.nombreesWaifu = global.nombreesWaifu || [
-  'Sakura', 'Yuki', 'Aiko', 'Rin', 'Mei', 'Hana', 'Kaori', 'Nozomi', 'Airi', 'Emi',
-  'Yumi', 'Sora', 'Aoi', 'Mio', 'Rei', 'Nana', 'Yui', 'Suzu', 'Momo', 'Riko',
-  'Akane', 'Chie', 'Daichi', 'Eiko', 'Fumi', 'Gaku', 'Hoshi', 'Isao', 'Jiro', 'Katsuki',
-  'Luna', 'Mitsuki', 'Natsu', 'Orin', 'Priya', 'Quill', 'Raven', 'Sasha', 'Tsubaki', 'Ume',
-  'Violet', 'Wren', 'Xiao', 'Yara', 'Zara', 'Amara', 'Bella', 'Cora', 'Daphne', 'Estelle'
-]
-
-var handler = async (m, { conn }) => {
-  const userId = m.sender
-  const now = Date.now()
-  const cooldownTime = 15 * 60 * 1000
-
-  if (cooldowns[userId] && now < cooldowns[userId]) {
-    const remainingTime = Math.ceil((cooldowns[userId] - now) / 1000)
-    const minutes = Math.floor(remainingTime / 60)
-    const seconds = remainingTime % 60
-
-    return await conn.reply(
-      m.chat,
-      `⏳ Debes esperar *${minutes}m ${seconds}s* para usar *.rw* de nuevo.`,
-      m,
-      global.rcanal
-    )
-  }
-
-  try {
-    await conn.reply(m.chat, `🎧 Buscando una waifu...`, m, global.rcanal)
-
-    let res = await fetch('https://danbooru.donmai.us/posts.json?tags=rating:general&random=true&limit=1')
-    let json = await res.json()
-
-    if (!json || !json[0]) {
-      return conn.reply(m.chat, `❌ No pude conectar con Danbooru. Intenta de nuevo.`, m, global.rcanal)
-    }
-
-    let post = json[0]
-    let imagen = post.file_url || post.large_file_url || null
-
-    if (!imagen) {
-      return conn.reply(m.chat, `❌ La imagen no está disponible. Intenta de nuevo.`, m, global.rcanal)
-    }
-
-    let rareza = elegirRareza()
-    let precio = Math.floor(Math.random() * (rareza.max - rareza.min + 1)) + rareza.min
-    let nombre = pickRandom(global.nombreesWaifu)
-    let offerId = post.id
-
-    let caption = `✿°• 𝗪𝗔𝗜𝗙𝗨 𝗔𝗟𝗘𝗔𝗧𝗢𝗥𝗜𝗔 •°✿
-
-🌸 *Nombre:* ${nombre}
-⚥ *Género:* Femenino
-✰ *Rareza:* ${rareza.emoji} ${rareza.nombre}
-💰 *Valor:* ${precio} WaguriCoins
-♡ *Estado:* ¡Libre! Usa .claim ${offerId}
-📖 *Fuente:* Danbooru
-🆔 *ID:* ${offerId}
-
-⌛ *Oferta válida por 15 minutos*`
-
-    await conn.sendFile(m.chat, imagen, 'waifu.jpg', caption, m)
-
-    global.waifuOffers[offerId] = {
-      nombre,
-      rareza: rareza.nombre,
-      emoji: rareza.emoji,
-      precio,
-      imagen,
-      expira: now + cooldownTime,
-      danbooru_id: post.id
-    }
-
-    cooldowns[userId] = now
-
-  } catch (e) {
-    console.log('Error en rw:', e)
-    conn.reply(m.chat, `✘ Error al invocar waifu: ${e.message}`, m, global.rcanal)
-  }
-}
-
-handler.help = ['rw', 'rollwaifu']
+handler.help = ['ver', 'rw', 'rollwaifu']
 handler.tags = ['gacha']
-handler.command = ['rw', 'rollwaifu']
-handler.fail = null
-handler.exp = 0
+handler.command = ['ver', 'rw', 'rollwaifu']
 handler.group = true
-handler.register = true
 
 export default handler
