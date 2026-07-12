@@ -26,7 +26,7 @@ let handler = async (m, { conn }) => {
         const remainingTime = Math.ceil((cooldowns[userId] - now) / 1000)
         const minutes = Math.floor(remainingTime / 60)
         const seconds = remainingTime % 60
-        return await conn.reply(m.chat, ε(´｡•᎑•)っ ¡𝗗𝗲𝗯𝗲𝘀 𝗲𝘀𝗽𝗲𝗿𝗮𝗿 *${minutes} minutos y ${seconds} segundos* 𝗽𝗮𝗿𝗮 𝘃𝗼𝗹𝘃𝗲𝗿  𝘂𝘀𝗮𝗿 *.rw* 𝗱𝗲 𝗻𝘂𝗲𝘃𝗼.`, m)
+        return await conn.reply(m.chat, `( ⸝⸝･̆⤚･̆⸝⸝) ¡𝗗𝗲𝗯𝗲𝘀 𝗲𝘀𝗽𝗲𝗿𝗮𝗿 *${minutes} minutos y ${seconds} segundos* 𝗽𝗮𝗿𝗮 𝘃𝗼𝗹𝘃𝗲𝗿  𝘂𝘀𝗮𝗿 *#rw* 𝗱𝗲 𝗻𝘂𝗲𝘃𝗼.`, m)
     }
 
     try {
@@ -81,14 +81,12 @@ let handler = async (m, { conn }) => {
 
 `🌷 ╭─── 𝘿𝘼𝙏𝙊𝙎 ───╮ 🌷\n` +
 `💮 │ > 𝙉𝙊𝙈𝘽𝙍𝙀: *${randomCharacter.name}*\n` +
-`🎀 │ > 𝙂𝙀𝙉𝙀𝙍𝙊: *${randomCharacter.gender}*\n` +
+`🌼 │ > 𝙂𝙀𝙉𝙀𝙍𝙊: *${randomCharacter.gender}*\n` +
 `🌸 │ > 𝙑𝘼𝙇𝙊𝙍: *${randomCharacter.value}*\n` +
 `🍓 │ > 𝙀𝙎𝙏𝘼𝘿𝙊: ${statusMessage}\n` +
 `🐰 │ > 𝙁𝙐𝙀𝙉𝙏𝙀: *${randomCharacter.source}*\n` +
 `🎐 │ > 𝙄𝘿: *${randomCharacter.id}*\n` +
 `🌷 ╰──────────────╯ 🌷\n\n` +
-
-`⋆˚꒰🧸꒱˚⋆  Listo!  ⋆˚꒰🍡꒱˚⋆`
         const mentions = randomCharacter.user ? [randomCharacter.user] : []
 
         if (resourceType === 'video') {
