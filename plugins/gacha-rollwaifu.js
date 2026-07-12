@@ -20,7 +20,7 @@ let handler = async (m, { conn }) => {
 
     const userId = m.sender
     const now = Date.now()
-    const COOLDOWN_TIME = 15 * 60 * 1000 
+    const COOLDOWN_TIME = 1 * 60 * 1000 
 
     if (cooldowns[userId] && now < cooldowns[userId]) {
         const remainingTime = Math.ceil((cooldowns[userId] - now) / 1000)
