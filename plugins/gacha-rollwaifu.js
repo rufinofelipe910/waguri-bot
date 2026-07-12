@@ -74,19 +74,8 @@ let handler = async (m, { conn }) => {
             ? `Reclamado por @${randomCharacter.user.split('@')[0]}`
             : '✨ ¡𝗟𝗶𝗯𝗿𝗲! ¡𝗨𝘀𝗮 #claim para reclamar!'
 
-        const message = `🌸 ⋆｡˚ ☁︎ ˚｡⋆ 🌸\n\n` +
-`╭─────────  ꒰ 🐰 ꒱ ─────────╮\n` +
-`     ✧･ﾟ: *𝙄𝙉𝙁𝙊𝙍𝙈𝘼𝘾𝙄𝙊𝙉* :･ﾟ✧\n` +
-`╰─────────  ꒰ 🎀 ꒱ ─────────╯\n\n` +
+        const message = `╔◡╍┅•.⊹︵ࣾ᷼ ׁ𖥓┅╲۪ ⦙᷼͝🧸᷼͝⦙ ׅ╱ׅ╍𖥓 ︵ࣾ᷼︵ׄׄ᷼⊹┅╍◡╗\n┋  ⣿̶ֻ㪝ׅ⃕݊⃧🐚⃚̶̸͝ᤢ֠◌ִ̲ 𝑪𝑯𝑨𝑹𝑨𝑪𝑻𝑬𝑹 𝑹𝑨𝑵𝑫𝑶𝑴 🐸ꨪ̸⃙ׅᮬֺ๋֢᳟  ┋\n╚◠┅┅˙•⊹.⁀𖥓 ׅ╍╲۪ ⦙᷼͝🎠᷼͝⦙ ׅ╱ׅ╍𖥓 ◠˙⁀۪ׄ⊹˙╍┅◠╝\n\n꥓໋╭࣭۬═ֽ̥࣪━᜔๋݈═𑂺ׄ︵ິּ֙᷼⌒݈᳹᪾̯ ⋮꥓ּ࣭ׄ🌹㪝ິ᜔ּ໋࣭ׄ⋮⌒ໍּ֣ׄ═ᮣໍ࣭ׄ━𑂺᜔꥓໋┉꥓ׂ᷼━᜔࣭֙━๋݈═̥࣭۬╮\n> 𝙉𝙊𝙈𝘽𝙍𝙀: *${randomCharacter.name}*\n> 𝙂𝙀𝙉𝙀𝙍𝙊: *${randomCharacter.gender}*\n> 𝙑𝘼𝙇𝙊𝙍: *${randomCharacter.value}*\n> 𝙀𝙎𝙏𝘼𝘿𝙊: ${statusMessage}\n> 𝙁𝙐𝙀𝙉𝙏𝙀: *${randomCharacter.source}*\n> 𝙄𝘿: *${randomCharacter.id}*\n꥓໋╰ׅ۬═ֽ̥࣪━᜔๋݈═𑂺ׄ︵ິּ֙᷼⌒݈᳹᪾̯ ⋮꥓ּ࣭ׄ🐦‍🔥⋮⌒ໍּ֣ׄ═ᮣໍ࣭ׄ━𑂺᜔꥓໋┉꥓ׂ᷼━᜔࣭֙━๋݈═̥࣭۬╯`
 
-`🌷 ╭─── 𝘿𝘼𝙏𝙊𝙎 ───╮ 🌷\n` +
-`💮 │ > 𝙉𝙊𝙈𝘽𝙍𝙀: *${randomCharacter.name}*\n` +
-`🌼 │ > 𝙂𝙀𝙉𝙀𝙍𝙊: *${randomCharacter.gender}*\n` +
-`🌸 │ > 𝙑𝘼𝙇𝙊𝙍: *${randomCharacter.value}*\n` +
-`🍓 │ > 𝙀𝙎𝙏𝘼𝘿𝙊: ${statusMessage}\n` +
-`🐰 │ > 𝙁𝙐𝙀𝙉𝙏𝙀: *${randomCharacter.source}*\n` +
-`🎐 │ > 𝙄𝘿: *${randomCharacter.id}*\n` +
-`🌷 ╰──────────────╯ 🌷\n\n` +
         const mentions = randomCharacter.user ? [randomCharacter.user] : []
 
         if (resourceType === 'video') {
