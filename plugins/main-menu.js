@@ -129,6 +129,20 @@ let handler = async (m, { conn }) => {
 🌈 rob
 🌈 deposit
 🌈 withdraw
+
+💖 *GACHA · WAIFUS*
+🌈 rw
+🌈 claim
+🌈 harem
+🌈 vender
+🌈 tokenall
+🌈 regalar
+🌈 robar
+🌈 vote
+🌈 topwaifus
+🌈 token
+🌈 wimage
+🌈 winfo
 ⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑⌑
 🌸 _${channelName}_`.trim()
 
