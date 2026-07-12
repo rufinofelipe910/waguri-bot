@@ -36,13 +36,21 @@ let handler = async (m, { conn }) => {
     const userId = m.sender;
     const now = Date.now();
 
-    // --- LÓGICA DE COOLDOWN (Se salta si Admin Abuse está activo) ---
+  // --- LÓGICA DE COOLDOWN (Se salta si Admin Abuse está activo) ---
+    const COOLDOWN_TIME = 1 * 60 * 1000 // 1 minuto
+
     if (!global.adminAbuse && cooldowns[userId] && now < cooldowns[userId]) {
         const remaining = cooldowns[userId] - now;
         const minutes = Math.floor(remaining / 60000);
         const seconds = Math.floor((remaining % 60000) / 1000);
-        return conn.reply(m.chat, `⏳ Debes esperar *${minutes}m ${seconds}s* antes de reclamar otra waifu.`, m);
+        return conn.reply(m.chat, `🌸 ⋆｡˚ ☁︎ ˚｡⋆ 🌸\n\n` +
+        `꒰ঌ ⏳ ꒱\n` +
+        `*— ¡Espera un poquito!* Debes esperar *${minutes}m ${seconds}s* antes de reclamar otra waifu (｡>﹏<｡)\n\n` +
+        `🌸 ⋆｡˚ ☁︎ ˚｡⋆ 🌸`, m);
     }
+
+    // --- AL FINAL DEL COMANDO GUARDA EL COOLDOWN ---
+    cooldowns[userId] = now + COOLDOWN_TIME
 
     if (!m.quoted || !m.quoted.text) {
         return conn.reply(m.chat, '《✧》Debes *citar un personaje válido* para reclamarlo.', m);
